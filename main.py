@@ -18,7 +18,7 @@ class Ant(BaseModel):
         orm_mode = True
 
 @app.post('/ants/')
-async def create_ant_view(ant: Ant):
+async def create_ant(ant: Ant):
     return ant
 
 
