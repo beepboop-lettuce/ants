@@ -7,6 +7,20 @@ from sqlalchemy import Boolean, Column, Float, String, Integer
 
 app = FastAPI()
 
+#SqlAlchemy Setup
+DATABASE_URL = 'sqlite+pysqlite:///./db.sqlite3:'
+engine = create_engine(DATABASE_URL, echo=True, future=True)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+#Returning a Database Object
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 class Ant(BaseModel):
     domain: str
     kingdom: str
