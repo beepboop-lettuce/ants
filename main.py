@@ -63,10 +63,18 @@ def create_ant(db: Session, ant: Ant):
 
     return db_ant
 
-@app.post('/ants/')
-async def create_ant(ant: Ant):
-    return ant
+@app.post('/ants/', response_model=Ant)
+def create_ants_view(ant: Ant, db: Session = Depends(get_db)):
+    db_ant = create_ant(db, ant)
+    return db_ant
 
+@app.get('/ants/', response_model=List[Ant])
+def get_ants_view(db: Session = Depends(get_db)):
+    return get_ants(db)
+
+@app.get('/ant/{ant_id}')
+def get_ant_view(ant_id: int, db: Session = Depends(get_db)):
+    return get_ant(db, ant_id)
 
 @app.get('/')
 async def root():
