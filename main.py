@@ -34,7 +34,7 @@ class DBAnt(Base):
     genus = Column(String(50), nullable=True)
     species = Column(String(50), nullable=True)
 
-Bas.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 class Ant(BaseModel):
     domain: str
@@ -48,6 +48,20 @@ class Ant(BaseModel):
 
     class Config:
         orm_mode = True
+
+def get_ant(db: Session, ant_id: int):
+    return db.query(DBAnt).where(DBAnt.id == ant_id).first()
+
+def get_ants(db: Session):
+    return db.query(DBAnt).all()
+
+def create_ant(db: Session, ant: Ant):
+    db_ant = DBAnt(**ant.dict())
+    db.add(db_ant)
+    db.commit()
+    db.refresh(db_ant)
+
+    return db_ant
 
 @app.post('/ants/')
 async def create_ant(ant: Ant):
