@@ -21,6 +21,21 @@ def get_db():
     finally:
         db.close()
 
+class DBAnt(Base):
+    __tablename__ = 'ants'
+
+    id = Column(Integer, primary_key=True, index=True)
+    domain = Column(String(50), nullable=True)
+    kingdom = Column(String(50), nullable=True)
+    phylum = Column(String(50), nullable=True)
+    classs = Column(String(50), nullable=True)
+    order = Column(String(50), nullable=True)
+    family = Column(String(50), nullable=True)
+    genus = Column(String(50), nullable=True)
+    species = Column(String(50), nullable=True)
+
+Bas.metadata.create_all(bind=engine)
+
 class Ant(BaseModel):
     domain: str
     kingdom: str
